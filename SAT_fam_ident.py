@@ -23,7 +23,7 @@ def trfdat_to_csv(input_file, output_file):
 					if row_trf_dat[i].find('gi|') >= 0:
 						genbank_id = row_trf_dat[i]
 						break
-				for i in range(len(strfas)):
+				for i in range(len(row_trf_dat)):
 					if re_contscaf.search(row_trf_dat[i]) is not None:
 						contig_name = re_contscaf.search(row_trf_dat[i])
 						break
@@ -34,9 +34,9 @@ def trfdat_to_csv(input_file, output_file):
 
 def sorting_csv(infile, outfile):
 
-'''
-sort by TR monomer lenght
-'''
+	'''
+	sort by TR monomer lenght
+	'''
 
 	Rd = Read_CSV(infile, '\t')
 	table = Rd.read_csv()
@@ -47,9 +47,9 @@ sort by TR monomer lenght
 
 def cycl_permutation(infile, outfile):
 
-'''
-Find and replace cyclic permutation for TR with monomer longer than 4 bp
-'''	
+	'''
+	Find and replace cyclic permutation for TR with monomer longer than 4 bp
+	'''	
 
 	def cycl_repl(seq):
 		seq_repl = []
@@ -94,11 +94,11 @@ Find and replace cyclic permutation for TR with monomer longer than 4 bp
 
 def trf_filter(infile, outfileSAT, outfileSMALL, outfileSSR):
 
-'''
-TR filter. Big TR: GC 20-80%, pole enthropy > 1.76, pole length > 1000
-create short SAT (pole lenght < 1000)
-and file with SSR repete
-'''
+	'''
+	TR filter. Big TR: GC 20-80%, pole enthropy > 1.76, pole length > 1000
+	create short SAT (pole lenght < 1000)
+	and file with SSR repete
+	'''
 
 	Rd = Read_CSV(infile ,'\t')
 	table = Rd.read_csv()
@@ -181,6 +181,6 @@ outfile_fasta_all_TR = open(outfile_fasta, 'w')
 for i in range(len(table)):
 	try:
 		if table[i][17] == '0':
-			outfile_fasta_all_TR.write('>' + table[i][2] + ',' + table[i][16] + ',' + table[i][0] + ',' + table[i][1] + '\n' + table[i][14] + '\n')
+			outfile_fasta_all_TR.write('>%s,%s,%s,%s\n%s\n' % (table[i][2], table[i][16], table[i][0], table[i][1], table[i][14]))
 	except(IndexError):
 		pass
